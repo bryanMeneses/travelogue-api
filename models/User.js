@@ -54,7 +54,7 @@ const validateRegister = request => {
         password: Joi.string().min(5).max(500).required(),
         confirmpw: Joi.string().min(5).max(500).required(),
     }
-    return Joi.validate(request, schema, { abortEarly: false })
+    return Joi.validate(request, schema)
 }
 
 const validateLogin = request => {
@@ -62,7 +62,7 @@ const validateLogin = request => {
         email: Joi.string().email().min(3).max(50).required(),
         password: Joi.string().min(5).max(500).required(),
     }
-    return Joi.validate(request, schema, { abortEarly: false })
+    return Joi.validate(request, schema)
 }
 
 module.exports = {

@@ -19,19 +19,17 @@ router.post('/register', async (req, res) => {
     try {
         // Validate request with Joi
         const { error } = validateRegister(req.body)
-        if (error) return res.status(400).send(error.details.map(cur => {
-            return { input_error: cur.message }
-        }))
+        if (error) return res.status(400).send({ register_error: error.details[0].message })
 
         // Check if the user/email already exists
         const userAlreadyExists = await User.findOne({ email: req.body.email })
         if (userAlreadyExists) {
-            return res.status(400).send([{ input_error: 'That user already exists.' }])
+            return res.status(400).send({ register_error: 'That user already exists.' })
         }
 
         // Check if both passwords match
         if (req.body.confirmpw !== req.body.password) {
-            return res.status(400).send([{ input_error: 'Passwords do not match.' }])
+            return res.status(400).send({ register_error: 'Passwords do not match.' })
         }
 
         // Make the new user with only the info needed
@@ -49,7 +47,7 @@ router.post('/register', async (req, res) => {
     }
     catch (err) {
         console.log(err.message)
-        res.status(500).send({ error: 'Something went wrong' })
+        res.status(500).send({ register_error: 'Something went wrong' })
     }
 })
 
@@ -60,17 +58,15 @@ router.post('/login', async (req, res) => {
     try {
         // Validate request with Joi
         const { error } = validateLogin(req.body)
-        if (error) return res.status(400).send(error.details.map(cur => {
-            return { input_error: cur.message }
-        }))
+        if (error) return res.status(400).send({ signin_error: error.details[0].message })
 
         // Check if user doesn't exist 
         const user = await User.findOne({ email: req.body.email })
-        if (!user) return res.status(404).send([{ input_error: 'That user doesn\'t exist' }])
+        if (!user) return res.status(404).send({ signin_error: 'That user doesn\'t exist' })
 
         // Check if the password matches the user.password using bcrypt.compare()
         const validPassord = await bcrypt.compare(req.body.password, user.password)
-        if (!validPassord) return res.status(400).send([{ input_error: 'Incorrect password' }])
+        if (!validPassord) return res.status(400).send({ signin_error: 'Incorrect password' })
 
         // Use jsonwebtoken to make token for clients to access private routes
         const token = user.generateAuthToken()
@@ -81,7 +77,7 @@ router.post('/login', async (req, res) => {
         })
     }
     catch (err) {
-        res.status(500).send({ error: 'Something went wrong.' })
+        res.status(500).send({ signin_error: 'Something went wrong.' })
     }
 })
 
