@@ -1,0 +1,4 @@
+{
+    "mongoURI": "travelogue_privateURI",
+    "jwtPrivateKey": "travelogue_jwtPrivateKey"
+}
