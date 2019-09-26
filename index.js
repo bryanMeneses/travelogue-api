@@ -21,7 +21,7 @@ const mongoURI = config.get('mongoURI')
 mongoose.connect(mongoURI,
     { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false })
     .then(() => console.log('You have connected to MongoDB...'))
-    .catch(err => console.error(`Error: ${err}`))
+    .catch(err => console.error(`Error: ${err}. Could not connect to MongoDB`))
 
 
 
