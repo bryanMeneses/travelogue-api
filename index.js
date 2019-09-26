@@ -3,6 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const config = require('config')
 const passport = require('passport')
+const cors = require('cors')
 
 // Routes
 const users = require('./routes/users')
@@ -32,6 +33,8 @@ app.use(express.json())
 app.use(passport.initialize())
 // Passport Configuration
 require('./passport-config/passport')(passport)
+
+app.use(cors());
 
 // ---- END MIDDLEWARE ----
 
