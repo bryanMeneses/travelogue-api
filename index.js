@@ -14,9 +14,7 @@ const post = require('./routes/post')
 const app = express();
 
 // Get MongoDB URI for privacy
-const mongoURI = config.get('mongoURI')
-console.log(mongoURI)
-
+const mongoURI = process.env.MONGODB_URI || config.get('mongoURI')
 
 // Connect to MongoDB
 mongoose.connect(mongoURI,

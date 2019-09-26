@@ -1,4 +1,4 @@
 {
-    "mongoURI": "travelogue_privateURI",
+    "mongoURI": "MONGODB_URI",
     "jwtPrivateKey": "travelogue_jwtPrivateKey"
 }
