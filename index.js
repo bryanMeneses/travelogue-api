@@ -18,7 +18,7 @@ const mongoURI = config.get('mongoURI')
 
 
 // Connect to MongoDB
-mongoose.connect(mongoURI,
+mongoose.connect("mongodb+srv://bryan:bryan123@cluster0-kfrgg.mongodb.net/test?retryWrites=true&w=majority",
     { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false })
     .then(() => console.log('You have connected to MongoDB...'))
     .catch(err => console.error(`Error: ${err}. Could not connect to MongoDB`))
