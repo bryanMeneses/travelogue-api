@@ -126,7 +126,7 @@ const validateProfile = request => {
         current_location: Joi.string().min(3).max(50).required(),
         gender: Joi.string().required()
     }
-    return Joi.validate(request, schema, { abortEarly: false })
+    return Joi.validate(request, schema)
 }
 
 // Validate optional information

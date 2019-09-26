@@ -58,9 +58,7 @@ router.post('/required', passport.authenticate('jwt', { session: false }), async
     try {
         // Validate request with Joi
         const { error } = validateProfile(req.body)
-        if (error) return res.status(400).send(error.details.map(cur => {
-            return { profile_required_error: cur.message }
-        }))
+        if (error) return res.status(400).send({ create_profile_error: error.details[0].message })
 
         // remove any white spaces from req.body.username
         req.body.username = req.body.username.replace(/\s/g, '')
@@ -80,7 +78,7 @@ router.post('/required', passport.authenticate('jwt', { session: false }), async
         if (profile) {
             // Check if new username is equal to another user's username AND not equal to the logged in user's username
             const isUsernameTaken = await Profile.findOne({ username: req.body.username })
-            if (isUsernameTaken && profile.username !== req.body.username) return res.status(400).send([{ profile_required_error: 'That username has already been taken.' }])
+            if (isUsernameTaken && profile.username !== req.body.username) return res.status(400).send({ create_profile_error: 'That username has already been taken.' })
 
             // Update logged in user's profile 
             const updatedProfile = await Profile.findOneAndUpdate(
@@ -93,7 +91,7 @@ router.post('/required', passport.authenticate('jwt', { session: false }), async
             // Check first if username is already taken before making new profile
             const isUsernameTaken = await Profile.findOne({ username: req.body.username })
 
-            if (isUsernameTaken) return res.status(400).send([{ profile_required_error: 'That username has already been taken.' }])
+            if (isUsernameTaken) return res.status(400).send({ create_profile_error: 'That username has already been taken.' })
 
             const newProfile = new Profile(profileFields);
             await newProfile.save();
@@ -102,7 +100,7 @@ router.post('/required', passport.authenticate('jwt', { session: false }), async
         }
     }
     catch (err) {
-        res.status(500).send({ profile_required_error: 'Something went wrong.' })
+        res.status(500).send({ create_profile_error: 'Something went wrong.' })
     }
 })
 
