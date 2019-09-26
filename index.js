@@ -44,4 +44,8 @@ app.use('/api/post', post)
 // Port and listen on port
 const port = process.env.PORT || 5000
 
+app.get("/", function (req, res) {
+    res.send(JSON.stringify({ Hello: "World" }));
+});
+
 app.listen(port, () => console.log(`Server listening on port ${port}...`))
