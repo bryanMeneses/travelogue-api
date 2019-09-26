@@ -15,10 +15,11 @@ const app = express();
 
 // Get MongoDB URI for privacy
 const mongoURI = config.get('mongoURI')
+console.log(mongoURI)
 
 
 // Connect to MongoDB
-mongoose.connect("mongodb+srv://bryan:bryan123@cluster0-kfrgg.mongodb.net/test?retryWrites=true&w=majority",
+mongoose.connect(mongoURI,
     { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false })
     .then(() => console.log('You have connected to MongoDB...'))
     .catch(err => console.error(`Error: ${err}. Could not connect to MongoDB`))
